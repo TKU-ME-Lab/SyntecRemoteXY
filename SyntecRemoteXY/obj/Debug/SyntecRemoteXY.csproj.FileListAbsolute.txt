@@ -1,0 +1,15 @@
+D:\VC Sharp\SyntecRemoteXY\SyntecRemoteXY\bin\Debug\SyntecRemoteXY.exe.config
+D:\VC Sharp\SyntecRemoteXY\SyntecRemoteXY\bin\Debug\SyntecRemoteXY.exe
+D:\VC Sharp\SyntecRemoteXY\SyntecRemoteXY\bin\Debug\SyntecRemoteXY.pdb
+D:\VC Sharp\SyntecRemoteXY\SyntecRemoteXY\obj\Debug\SyntecRemoteXY.csprojAssemblyReference.cache
+D:\VC Sharp\SyntecRemoteXY\SyntecRemoteXY\obj\Debug\SyntecRemoteXY.Properties.Resources.resources
+D:\VC Sharp\SyntecRemoteXY\SyntecRemoteXY\obj\Debug\SyntecRemoteXY.csproj.GenerateResource.cache
+D:\VC Sharp\SyntecRemoteXY\SyntecRemoteXY\obj\Debug\SyntecRemoteXY.csproj.CoreCompileInputs.cache
+D:\VC Sharp\SyntecRemoteXY\SyntecRemoteXY\obj\Debug\SyntecRemoteXY.csproj.CopyComplete
+D:\VC Sharp\SyntecRemoteXY\SyntecRemoteXY\obj\Debug\SyntecRemoteXY.exe
+D:\VC Sharp\SyntecRemoteXY\SyntecRemoteXY\obj\Debug\SyntecRemoteXY.pdb
+D:\VC Sharp\SyntecRemoteXY\SyntecRemoteXY\bin\Debug\Syntec.RemoteCNC.dll
+D:\VC Sharp\SyntecRemoteXY\SyntecRemoteXY\bin\Debug\Syntec.RemoteObj.dll
+D:\VC Sharp\SyntecRemoteXY\SyntecRemoteXY\bin\Debug\Syntec.OpenCNC.dll
+D:\VC Sharp\SyntecRemoteXY\SyntecRemoteXY\bin\Debug\MMICommon32.dll
+D:\VC Sharp\SyntecRemoteXY\SyntecRemoteXY\bin\Debug\nunit.framework.dll
