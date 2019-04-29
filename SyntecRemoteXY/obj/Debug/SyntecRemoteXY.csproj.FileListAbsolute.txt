@@ -13,3 +13,4 @@ D:\VC Sharp\SyntecRemoteXY\SyntecRemoteXY\bin\Debug\Syntec.RemoteObj.dll
 D:\VC Sharp\SyntecRemoteXY\SyntecRemoteXY\bin\Debug\Syntec.OpenCNC.dll
 D:\VC Sharp\SyntecRemoteXY\SyntecRemoteXY\bin\Debug\MMICommon32.dll
 D:\VC Sharp\SyntecRemoteXY\SyntecRemoteXY\bin\Debug\nunit.framework.dll
+D:\VC Sharp\SyntecRemoteXY\SyntecRemoteXY\obj\Debug\SyntecRemoteXY.Form1.resources

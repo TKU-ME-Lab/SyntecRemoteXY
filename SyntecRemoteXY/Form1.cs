@@ -34,11 +34,6 @@ namespace SyntecRemoteXY
         private BitMode m_bitmode = BitMode.Read;
 
         static NetworkStream m_NetStream;
-        
-        private string m_Mode;        //控制器模式 EX: 手動、自動執行....
-        private string m_Status;      //控制器狀態
-        private string m_Alarm;     //警報
-        private string m_EMG;         //緊急停止
 
         public Form1()
         {
@@ -47,38 +42,6 @@ namespace SyntecRemoteXY
 
         private void m_buttonStatus_Click(object sender, EventArgs e)
         {
-            if(state == ConnectionState.Connecting)
-            {
-                m_listBoxLog_ShowLog("Mode:" + m_Mode);
-                m_listBoxLog_ShowLog("Status:" + m_Status);
-                m_listBoxLog_ShowLog("Amglarm:" + m_Alarm);
-                m_listBoxLog_ShowLog("EMG:" + m_EMG);
-                
-                //string[] AxisName;
-                //short DecPoint;
-                //string[] unit;
-                //float[] Mach;
-                //float[] Abs;
-                //float[] Rel;
-                //float[] Dist;
-
-                //CNC.READ_position(out AxisName, out DecPoint, out unit, out Mach, out Abs, out Rel, out Dist);
-
-                //for (int i = 0; i < AxisName.Length; i++)
-                //{
-                //    m_listBoxLog_ShowLog("AxisName: " + AxisName[i]);
-                //    m_listBoxLog_ShowLog("DecPoint: " + DecPoint);
-                //    m_listBoxLog_ShowLog("unit: " + unit[i]);
-                //    m_listBoxLog_ShowLog("Mach: " + Mach[i]);
-                //    m_listBoxLog_ShowLog("Abs: " + Abs[i]);
-                //    m_listBoxLog_ShowLog("Rel: " + Rel[i]);
-                //    m_listBoxLog_ShowLog("Dist: " + Dist[i]);
-                //}
-            }
-            else
-            {
-                m_listBoxLog_ShowLog("Please Connect first");
-            }
         }
 
         private void m_buttonConnect_Click(object sender, EventArgs e)
@@ -92,8 +55,6 @@ namespace SyntecRemoteXY
                     m_listBoxLog_ShowLog("Can not connect:" + host);
                     m_buttonConnect.BackColor = SystemColors.Control;
                     m_labelStatusVal.Text = "NOTREADY";
-                    m_labelStatusVal.BackColor = SystemColors.Control;
-                    m_labelModeVal.Text = "NO Connect";
                     m_timerReadPos.Stop();
                     m_timerstatus.Stop();
                     CNC.Close();
@@ -112,15 +73,16 @@ namespace SyntecRemoteXY
                     m_timerstatus.Enabled = true;
                     m_timerstatus.Start();
 
+                    m_timerAlarm.Enabled = true;
+
                     state = ConnectionState.Connecting;
                 }
             }
             else
             {
+                m_timerAlarm.Stop();
                 m_buttonConnect.BackColor = SystemColors.Control;
                 m_labelStatusVal.Text = "NOTREADY";
-                m_labelStatusVal.BackColor = SystemColors.Control;
-                m_labelModeVal.Text = "NO Connect";
                 m_timerReadPos.Stop();
                 m_timerstatus.Stop();
                 CNC.Close();
@@ -207,18 +169,55 @@ namespace SyntecRemoteXY
                 if (state == ConnectionState.Connecting && m_bitmode == BitMode.Read)
                 {
                     int no = int.Parse(m_textBoxBitNo.Text);
-                    int[] data;
+                    short result;
 
-                    short result = CNC.READ_plc_register(no, no, out data);
+                    switch (m_bittype)
+                    {
+                        case BitType.I:
+                            byte[] data;
+                            result = CNC.READ_plc_ibit(no, no, out data);
 
-                    if (result != (short)SyntecRemoteCNC.ErrorCode.NormalTermination)
-                    {
-                        m_listBoxLog_ShowLog("Fail Read Position");
+                            if (result != (short)SyntecRemoteCNC.ErrorCode.NormalTermination)
+                            {
+                                m_listBoxLog_ShowLog("Fail Read I Bit");
+                            }
+                            else
+                            {
+                                m_textBoxBitValue.Text = String.Concat(data[0]);
+                                m_listBoxLog_ShowLog("Read I" + no + ": " + data[0]);
+                            }
+                            break;
+                        case BitType.R:
+                            int[] Rdata;
+                            result = CNC.READ_plc_register(no, no, out Rdata);
+
+                            if (result != (short)SyntecRemoteCNC.ErrorCode.NormalTermination)
+                            {
+                                m_listBoxLog_ShowLog("Fail Read Position");
+                            }
+                            else
+                            {
+                                m_textBoxBitValue.Text = String.Concat(Rdata[0]);
+                                m_listBoxLog_ShowLog("Read R" + no + ": " + Rdata[0]);
+                            }
+                            break;
+                        case BitType.C:
+                            result = CNC.READ_plc_cbit(no, no, out data);
+
+                            if (result != (short)SyntecRemoteCNC.ErrorCode.NormalTermination)
+                            {
+                                m_listBoxLog_ShowLog("Fail Read C Bit");
+                            }
+                            else
+                            {
+                                m_textBoxBitValue.Text = String.Concat(data[0]);
+                                m_listBoxLog_ShowLog("Read C" + no + ": " + data[0]);
+                            }
+                            break;
+                        default:
+                            break;
                     }
-                    else
-                    {
-                        m_textBoxBitValue.Text = String.Concat(data[0]);
-                    }
+                    
                 }
                 else
                 {
@@ -226,29 +225,42 @@ namespace SyntecRemoteXY
                 }
             }
         }
-
-private void m_timerstatus_Tick(object sender, EventArgs e)
+        string[] OldAlmMsg = {""};
+        private void m_timerstatus_Tick(object sender, EventArgs e)
         {
-            string Mainprog;    //主程式
-            string Curprog;     //現在在執行的程式
-            int CurSeq;         //用不到
-            bool IsAlarm;       //確認警告訊號
-            string[] AlmMsg;    //警告訊息
-            System.DateTime[] Almtime;
-            CNC.READ_status(out Mainprog, out Curprog, out CurSeq,
-                                            out m_Mode, out m_Status, out m_Alarm, out m_EMG);
-            CNC.READ_alm_current(out IsAlarm, out AlmMsg, out Almtime);
-
-            m_labelStatusVal.Text = m_Status;
-            m_labelModeVal.Text = m_Mode;
-
-            if (IsAlarm)
+            if (state == ConnectionState.Connecting)
             {
-                m_labelStatusVal.BackColor = Color.Red;
-            }
-            else
-            {
-                m_labelStatusVal.BackColor = SystemColors.Control;
+                string Mainprog;    //主程式
+                string Curprog;     //現在在執行的程式
+                int CurSeq;         //用不到
+                bool IsAlarm;       //確認警告訊號
+                string m_Mode;      //控制器模式 EX: 手動、自動執行....
+                string m_Status;    //控制器狀態
+                string m_Alarm;     //警報
+                string m_EMG;       //緊急停止
+                string[] AlmMsg;    //警告訊息
+
+                System.DateTime[] Almtime;
+
+                CNC.READ_status(out Mainprog, out Curprog, out CurSeq,
+                                                out m_Mode, out m_Status, out m_Alarm, out m_EMG);
+                CNC.READ_alm_current(out IsAlarm, out AlmMsg, out Almtime);
+
+                m_labelStatusVal.Text = m_Status;
+                if (IsAlarm)
+                {
+                    m_timerAlarm.Start();
+                    if (String.Concat(OldAlmMsg) != String.Concat(AlmMsg))
+                    {
+                        m_listBoxLog_ShowLog(String.Concat(AlmMsg));
+                    }
+                    OldAlmMsg = AlmMsg;
+                }
+                else
+                {
+                    m_timerAlarm.Stop();
+                    m_buttonConnect.BackColor = Color.Lime;
+                }
             }
         }
 
@@ -308,6 +320,14 @@ private void m_timerstatus_Tick(object sender, EventArgs e)
                     }
                 }
             }
+        }
+
+        private void m_timerAlarm_Tick(object sender, EventArgs e)
+        {
+            if(m_buttonConnect.BackColor == SystemColors.Control)
+            m_buttonConnect.BackColor = Color.Red;
+            else
+            m_buttonConnect.BackColor = SystemColors.Control;
         }
     }
 }

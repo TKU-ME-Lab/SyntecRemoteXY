@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.m_buttonStatus = new System.Windows.Forms.Button();
             this.m_textBoxIP = new System.Windows.Forms.TextBox();
             this.m_labelIP = new System.Windows.Forms.Label();
             this.m_buttonConnect = new System.Windows.Forms.Button();
@@ -52,28 +51,13 @@
             this.m_timerReadPos = new System.Windows.Forms.Timer(this.components);
             this.m_timerstatus = new System.Windows.Forms.Timer(this.components);
             this.m_buttonStop = new System.Windows.Forms.Button();
-            this.m_groupBoxStatus = new System.Windows.Forms.GroupBox();
-            this.m_labelStatusVal = new System.Windows.Forms.Label();
-            this.m_labelModeVal = new System.Windows.Forms.Label();
-            this.m_labelModeName = new System.Windows.Forms.Label();
             this.m_labelStatusName = new System.Windows.Forms.Label();
+            this.m_labelStatusVal = new System.Windows.Forms.Label();
+            this.m_timerAlarm = new System.Windows.Forms.Timer(this.components);
             this.m_groupBoxIP.SuspendLayout();
             this.m_groupBoxPosition.SuspendLayout();
             this.m_groupBoxRWbit.SuspendLayout();
-            this.m_groupBoxStatus.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // m_buttonStatus
-            // 
-            this.m_buttonStatus.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.m_buttonStatus.Location = new System.Drawing.Point(37, 45);
-            this.m_buttonStatus.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.m_buttonStatus.Name = "m_buttonStatus";
-            this.m_buttonStatus.Size = new System.Drawing.Size(109, 42);
-            this.m_buttonStatus.TabIndex = 0;
-            this.m_buttonStatus.Text = "Status";
-            this.m_buttonStatus.UseVisualStyleBackColor = true;
-            this.m_buttonStatus.Click += new System.EventHandler(this.m_buttonStatus_Click);
             // 
             // m_textBoxIP
             // 
@@ -84,7 +68,7 @@
             this.m_textBoxIP.Name = "m_textBoxIP";
             this.m_textBoxIP.Size = new System.Drawing.Size(139, 30);
             this.m_textBoxIP.TabIndex = 2;
-            this.m_textBoxIP.Text = "192.168.0.101";
+            this.m_textBoxIP.Text = "192.168.0.10";
             // 
             // m_labelIP
             // 
@@ -305,7 +289,7 @@
             // m_buttonStop
             // 
             this.m_buttonStop.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.m_buttonStop.Location = new System.Drawing.Point(37, 105);
+            this.m_buttonStop.Location = new System.Drawing.Point(36, 111);
             this.m_buttonStop.Name = "m_buttonStop";
             this.m_buttonStop.Size = new System.Drawing.Size(109, 44);
             this.m_buttonStop.TabIndex = 9;
@@ -313,72 +297,42 @@
             this.m_buttonStop.UseVisualStyleBackColor = true;
             this.m_buttonStop.Click += new System.EventHandler(this.m_buttonStop_Click);
             // 
-            // m_groupBoxStatus
+            // m_labelStatusName
             // 
-            this.m_groupBoxStatus.Controls.Add(this.m_labelStatusVal);
-            this.m_groupBoxStatus.Controls.Add(this.m_labelModeVal);
-            this.m_groupBoxStatus.Controls.Add(this.m_labelModeName);
-            this.m_groupBoxStatus.Controls.Add(this.m_labelStatusName);
-            this.m_groupBoxStatus.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.m_groupBoxStatus.Location = new System.Drawing.Point(292, 20);
-            this.m_groupBoxStatus.Name = "m_groupBoxStatus";
-            this.m_groupBoxStatus.Size = new System.Drawing.Size(241, 129);
-            this.m_groupBoxStatus.TabIndex = 10;
-            this.m_groupBoxStatus.TabStop = false;
-            this.m_groupBoxStatus.Text = "System Status";
+            this.m_labelStatusName.AutoSize = true;
+            this.m_labelStatusName.Font = new System.Drawing.Font("Times New Roman", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.m_labelStatusName.Location = new System.Drawing.Point(31, 43);
+            this.m_labelStatusName.Name = "m_labelStatusName";
+            this.m_labelStatusName.Size = new System.Drawing.Size(76, 27);
+            this.m_labelStatusName.TabIndex = 0;
+            this.m_labelStatusName.Text = "Status:";
             // 
             // m_labelStatusVal
             // 
             this.m_labelStatusVal.AutoSize = true;
             this.m_labelStatusVal.Font = new System.Drawing.Font("Times New Roman", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.m_labelStatusVal.Location = new System.Drawing.Point(91, 41);
+            this.m_labelStatusVal.Location = new System.Drawing.Point(115, 45);
             this.m_labelStatusVal.Name = "m_labelStatusVal";
             this.m_labelStatusVal.Size = new System.Drawing.Size(142, 27);
             this.m_labelStatusVal.TabIndex = 4;
             this.m_labelStatusVal.Text = "NOTREADY";
             // 
-            // m_labelModeVal
+            // m_timerAlarm
             // 
-            this.m_labelModeVal.AutoSize = true;
-            this.m_labelModeVal.Font = new System.Drawing.Font("Times New Roman", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.m_labelModeVal.Location = new System.Drawing.Point(91, 85);
-            this.m_labelModeVal.Name = "m_labelModeVal";
-            this.m_labelModeVal.Size = new System.Drawing.Size(128, 27);
-            this.m_labelModeVal.TabIndex = 2;
-            this.m_labelModeVal.Text = "No Connect";
-            // 
-            // m_labelModeName
-            // 
-            this.m_labelModeName.AutoSize = true;
-            this.m_labelModeName.Font = new System.Drawing.Font("Times New Roman", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.m_labelModeName.Location = new System.Drawing.Point(7, 85);
-            this.m_labelModeName.Name = "m_labelModeName";
-            this.m_labelModeName.Size = new System.Drawing.Size(74, 27);
-            this.m_labelModeName.TabIndex = 1;
-            this.m_labelModeName.Text = "Mode:";
-            // 
-            // m_labelStatusName
-            // 
-            this.m_labelStatusName.AutoSize = true;
-            this.m_labelStatusName.Font = new System.Drawing.Font("Times New Roman", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.m_labelStatusName.Location = new System.Drawing.Point(7, 39);
-            this.m_labelStatusName.Name = "m_labelStatusName";
-            this.m_labelStatusName.Size = new System.Drawing.Size(76, 27);
-            this.m_labelStatusName.TabIndex = 0;
-            this.m_labelStatusName.Text = "Status:";
+            this.m_timerAlarm.Tick += new System.EventHandler(this.m_timerAlarm_Tick);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(885, 514);
-            this.Controls.Add(this.m_groupBoxStatus);
+            this.Controls.Add(this.m_labelStatusVal);
+            this.Controls.Add(this.m_labelStatusName);
             this.Controls.Add(this.m_buttonStop);
             this.Controls.Add(this.m_groupBoxRWbit);
             this.Controls.Add(this.m_listBoxLog);
             this.Controls.Add(this.m_buttonConnect);
             this.Controls.Add(this.m_textBoxIP);
-            this.Controls.Add(this.m_buttonStatus);
             this.Controls.Add(this.m_groupBoxIP);
             this.Controls.Add(this.m_groupBoxPosition);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -390,16 +344,12 @@
             this.m_groupBoxPosition.PerformLayout();
             this.m_groupBoxRWbit.ResumeLayout(false);
             this.m_groupBoxRWbit.PerformLayout();
-            this.m_groupBoxStatus.ResumeLayout(false);
-            this.m_groupBoxStatus.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Button m_buttonStatus;
         private System.Windows.Forms.TextBox m_textBoxIP;
         private System.Windows.Forms.Label m_labelIP;
         private System.Windows.Forms.Button m_buttonConnect;
@@ -422,11 +372,9 @@
         private System.Windows.Forms.TextBox m_textBoxBitValue;
         private System.Windows.Forms.Timer m_timerstatus;
         private System.Windows.Forms.Button m_buttonStop;
-        private System.Windows.Forms.GroupBox m_groupBoxStatus;
         private System.Windows.Forms.Label m_labelStatusName;
-        private System.Windows.Forms.Label m_labelModeVal;
-        private System.Windows.Forms.Label m_labelModeName;
         private System.Windows.Forms.Label m_labelStatusVal;
+        private System.Windows.Forms.Timer m_timerAlarm;
     }
 }
 
