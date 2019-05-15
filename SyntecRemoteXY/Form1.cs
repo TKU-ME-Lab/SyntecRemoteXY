@@ -42,9 +42,9 @@ namespace SyntecRemoteXY
         {
             String host = m_textBoxIP.Text;
             if(state == ConnectionState.Closed)
-            {
+            {                                               //Conncet Syntec controller, host: controler IP address
                 CNC = new SyntecRemoteCNC(host, 10000);     //連接Syntec控制器 host: 控制器IP位址 ,port: 10000，EX:SyntecRemoteCNC("192.168.0.10",10000)
-                if (!CNC.isConnected())     //檢查連線狀態，連上回傳1，反之回傳0
+                if (!CNC.isConnected())     //檢查連線狀態，連上回傳1，反之回傳0    Check connect status
                 {
                     m_listBoxLog_ShowLog("Can not connect:" + host);
                     m_buttonConnect.BackColor = SystemColors.Control;
@@ -143,9 +143,10 @@ namespace SyntecRemoteXY
 
                 int[] data;
                 short result = CNC.READ_plc_register(Rstart, Rend, out data);       //取得PLC Register 位址資料，Rstart:位址起始值, Rend:位址終止值, data:Plc資料(int)
+                                                                                    //Get the PLC data from Register address, Rstart: start address, Rend: end address, data: PLC data(int)
 
                 if (result != (short)SyntecRemoteCNC.ErrorCode.NormalTermination)   //確認錯誤訊息 NormalTermination:完成作業，未發生錯誤，回傳值0
-                {
+                {                                                                   //Check error message, NormalTermination: Work is finish, return 0
                     m_listBoxLog_ShowLog("Fail Read Position");
                 }
                 else
@@ -168,11 +169,12 @@ namespace SyntecRemoteXY
                     switch (m_bittype)
                     {
                         case BitType.I:
-                            byte[] data;
+                            byte[] data;        
                             result = CNC.READ_plc_ibit(no,no, out data);  //取得PLC I Bit位址資料，no(第一個):位址起始值, no(第二個):位址終止值, data:Plc資料(byte)
+                                                                          //Get the PLC data from I Bit address, Rstart: start address, Rend: end address, data: PLC data(int)
 
                             if (result != (short)SyntecRemoteCNC.ErrorCode.NormalTermination)   //確認錯誤訊息 NormalTermination:完成作業，未發生錯誤，回傳值0
-                            {
+                            {                                                                   //Check error message, NormalTermination: Work is finish, return 0
                                 m_listBoxLog_ShowLog("Fail Read I Bit");
                             }
                             else
@@ -228,9 +230,9 @@ namespace SyntecRemoteXY
                 string Curprog;     
                 int CurSeq;         
                 string Mode;      
-                string Status;    //控制器狀態，有兩種狀態 Ready 和 NotReady
+                string Status;    //控制器狀態，有兩種狀態 Ready 和 NotReady    controller status, Ready or NotReady
                 string Alarm;     
-                bool IsAlarm;       //判斷是否有警報
+                bool IsAlarm;       //判斷是否有警報   
                 string EMG;       
                 string[] AlmMsg;    //取得目前發生的警報訊息
                 System.DateTime[] Almtime;  //取得目前發生的警報時間
